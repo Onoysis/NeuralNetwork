@@ -15,7 +15,7 @@ public class Main {
 			System.out.println(result);
 		}
 		System.out.println("-------");
-		System.out.println(test.run(new double[] { 0.5, 0.55 })[0]);
+		System.out.println(test.run(new double[] { 0.5, 0.51 })[0]);
 	}
 }
 
@@ -46,16 +46,16 @@ class neuron {
 			NetValue += num * Weights[Count++];
 		}
 		NetValue += Bias;
-		ActivationValue = neuron.ActivationFunction(NetValue);
+		ActivationValue = ActivationFunction();
 	}
 
-	private static double ActivationFunction(double value) {
-		double x = Math.exp(value);
+	private double ActivationFunction() {
+		double x = Math.exp(NetValue);
 		return x / (x + 1);
 	}
 
-	public static double ActivationFunctionDerivative(double value) {
-		double x = Math.exp(value);
+	public double ActivationFunctionDerivative() {
+		double x = Math.exp(NetValue);
 		return x / Math.pow(x + 1, 2);
 	}
 }
@@ -124,7 +124,7 @@ class network {
 		// Calculate first layer
 		for (int j = 0; j < Layers[layerLength - 1].Neurons.length; j++) {
 			neuron Ne = Layers[layerLength - 1].Neurons[j];
-			Ne.Adjustment = neuron.ActivationFunctionDerivative(Ne.NetValue) * costDerivatives[j];
+			Ne.Adjustment = Ne.ActivationFunctionDerivative() * costDerivatives[j];
 		}
 
 		// Calculate the rest
@@ -135,7 +135,7 @@ class network {
 				for (int w = 0; w < Layers[l + 1].Neurons.length; w++) {
 					Ne.Adjustment += Layers[l + 1].Neurons[w].Weights[k] * Layers[l + 1].Neurons[w].Adjustment;
 				}
-				Ne.Adjustment *= neuron.ActivationFunctionDerivative(Ne.NetValue);
+				Ne.Adjustment *= Ne.ActivationFunctionDerivative();
 			}
 		}
 	}
