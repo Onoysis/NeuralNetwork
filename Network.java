@@ -17,7 +17,7 @@ public class Main {
         };
 
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 100000; i++) {
             for (int n = 0; n < inputs.length; n++){
                 double result = test.Train(inputs[n], expectedOutputs[n]);
                 System.out.println(result);
@@ -164,7 +164,7 @@ class network {
                 neuron[] LastNeurons = Layers[l - 1].Neurons;
                 ActivationValues = new double[LastNeurons.length];
                 for (int n = 0; n < LastNeurons.length; n++) {
-                    ActivationValues[n] = LastNeurons[n].NetValue;
+                    ActivationValues[n] = LastNeurons[n].ActivationValue;
                 }
             }
 
@@ -176,13 +176,13 @@ class network {
                     double gradient = ActivationValues[w] * Ne.Adjustment;
                     Ne.gSquared[w] += Math.pow(gradient, 2);
                     AdaptiveLearnRate = LearnRate / (Math.sqrt(Ne.gSquared[w]) + Correction);
-                    Ne.Weights[w] -= AdaptiveLearnRate * gradient;
+                    Ne.Weights[w] -= LearnRate * gradient;
                 }
 
                 Ne.gBias += Math.pow(Ne.Adjustment, 2);
                 AdaptiveLearnRate = LearnRate / (Math.sqrt(Ne.gBias) + Correction);
 
-                Ne.Bias -= Ne.Adjustment * AdaptiveLearnRate;
+                Ne.Bias -= Ne.Adjustment * LearnRate;
             }
         }
     }
