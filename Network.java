@@ -156,7 +156,7 @@ class network {
 			double[] ActivationValues = new double[LastNeurons.length];
 
 			for (int n = 0; n < LastNeurons.length; n++) {
-				ActivationValues[n] = LastNeurons[n].NetValue;
+				ActivationValues[n] = LastNeurons[n].ActivationValue;
 			}
 
 			for (int n = 0; n < currentLayer.Neurons.length; n++) {
